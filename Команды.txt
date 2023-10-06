@@ -1,0 +1,53 @@
+94.228.125.138
+
+apt update
+apt-get install default-jdk
+apt install git
+apt install gradle
+apt install kotlin
+apt install mc
+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 - токен
+
+ssh root@94.228.125.138
+git clone репозиторий заканчивающийся на .git
+cntr + O - из mc пойти в папку
+
+./gradlew run - запустить
+понять ч то неможешь заупскать
+
+chmod u+x gradlew - дать прова
+
+ls -l -проверить рпава по файлам
+
+
+./gradlew run - повторить
+
+устанвока докера
+/apt install docker.io docker-compose
+
+выбираем папку
+/opt
+далее содаем новую папку
+mkdir postgres
+создаем файл в папаке командлой nano docker-compose.yml
+вставляем
+version: '3.1'
+
+services:
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: stepan
+      POSTGRES_PASSWORD: stepan
+      POSTGRES_DB: myserver
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+сохраняем cnrl+x
+
+затем docker-compose up -d
