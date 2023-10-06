@@ -1,7 +1,6 @@
 package com.food.plugins
 
 
-import com.food.database.ShopDto
 import com.food.database.Shops.getAllShops
 import io.ktor.server.application.*
 import io.ktor.server.response.*
@@ -17,6 +16,11 @@ fun Application.configureRouting() {
         get("/tomsk/shops/") {
             val shops = getAllShops()
             call.respond(shops)
+        }
+    }
+    routing {
+        get("/tomsk") {
+            call.respondText("Text Tomsk")
         }
     }
 }
