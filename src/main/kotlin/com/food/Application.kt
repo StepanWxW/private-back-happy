@@ -7,9 +7,9 @@ import io.ktor.server.netty.Netty
 import org.jetbrains.exposed.sql.Database
 
 fun main() {
-    val localhost = "localhost"
+    val localhost = "postgres"
     val ip = "94.228.125.138"
-    Database.connect("jdbc:postgresql://${localhost}:5432/my", driver = "org.postgresql.Driver",
+    Database.connect("jdbc:postgresql://94.228.125.138:5432/my", driver = "org.postgresql.Driver",
     "stepan", "stepan")
     embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::module)
         .start(wait = true)

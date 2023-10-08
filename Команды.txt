@@ -51,3 +51,36 @@ services:
 сохраняем cnrl+x
 
 затем docker-compose up -d
+
+
+Команды по упаковке в докер.
+1.) Сбилдить джарник с помощью градел
+в папке  спроектом 
+gradle build (но надо сначала папку с билдом удалить)
+
+2.) Положить докер файл в проект в основую дирректорию. Dockerfile
+ с таким текстом
+FROM openjdk:19-ea-26-jdk
+
+# Устанавливаем рабочую директорию
+WORKDIR /app
+
+# Копируем JAR-файл вашего Ktor приложения в контейнер
+COPY build/libs/back.jar .
+
+Затем блидим  с мопощью докера нужно быть в папке с проектом
+docker build -t backend .
+
+3.) Типа архивируем, передаем на сервер, разархивируем и запускаем
+*) docker save -o backend-image.tar backend:latest
+*) scp backend-image.tar root@94.228.125.138:/root
+
+Затем на сервере  впапке
+*) docker load -i backend-image.tar (разархивировали)
+*) docker run --detach --restart always --name backend -p 8080:8080 backend:latest
+
+
+Создание сети
+docker network create mynetwork
+docker network connect mynetwork backend
+docker network connect mynetwork postres_db_1
