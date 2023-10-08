@@ -23,4 +23,10 @@ fun Application.configureRouting() {
             call.respondText("Text Tomsk")
         }
     }
+
+    routing {
+        get("/test") {
+            call.respondText("Это тестовый текст")
+        }
+    }
 }

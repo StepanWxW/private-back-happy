@@ -84,3 +84,8 @@ docker build -t backend .
 docker network create mynetwork
 docker network connect mynetwork backend
 docker network connect mynetwork postres_db_1
+
+Через копирование.
+
+Копируем  срепозитория Git copy ссылка с окончанием на .git
+Далее провадиваем в папку куда скопировали и пишем команду ./gradlew build
