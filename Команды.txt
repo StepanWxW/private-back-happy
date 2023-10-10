@@ -1,8 +1,5 @@
 94.228.125.138
 
-токен до ноября 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
-
-https://github.com/StepanWxW/com.food.ktor.git
 apt update
 apt-get install default-jdk
 apt install git
@@ -62,9 +59,41 @@ services:
 сохраняем cnrl+x
 
 затем docker-compose up -d
- 
 
 
-помог мне удалить процесс ps aux | grep java
+Команды по упаковке в докер.
+1.) Сбилдить джарник с помощью градел
+в папке  спроектом
+gradle build (но надо сначала папку с билдом удалить)
 
-scp -r C:/Users/YourUser/Documents/myfolder yourusername@remote-server:/home/yourusername/ скопироовать папку
+2.) Положить докер файл в проект в основую дирректорию. Dockerfile
+ с таким текстом
+FROM openjdk:19-ea-26-jdk
+
+# Устанавливаем рабочую директорию
+WORKDIR /app
+
+# Копируем JAR-файл вашего Ktor приложения в контейнер
+COPY build/libs/back.jar .
+
+Затем блидим  с мопощью докера нужно быть в папке с проектом
+docker build -t backend .
+
+3.) Типа архивируем, передаем на сервер, разархивируем и запускаем
+*) docker save -o backend-image.tar backend:latest
+*) scp backend-image.tar root@94.228.125.138:/root
+
+Затем на сервере  впапке
+*) docker load -i backend-image.tar (разархивировали)
+*) docker run --detach --restart always --name backend -p 8080:8080 backend:latest
+
+
+Создание сети
+docker network create mynetwork
+docker network connect mynetwork backend
+docker network connect mynetwork postres_db_1
+
+Через копирование.
+
+Копируем  срепозитория Git copy ссылка с окончанием на .git
+Далее провадиваем в папку куда скопировали и пишем команду ./gradlew build

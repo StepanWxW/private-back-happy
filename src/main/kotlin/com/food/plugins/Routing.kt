@@ -30,4 +30,10 @@ fun Application.configureRouting() {
             call.respond(HttpStatusCode.OK, sections)
         }
     }
+
+    routing {
+        get("/test") {
+            call.respondText("Это тестовый текст")
+        }
+    }
 }
