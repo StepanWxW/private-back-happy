@@ -1,5 +1,8 @@
 94.228.125.138
 
+токен до ноября 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
+
+https://github.com/StepanWxW/com.food.ktor.git
 apt update
 apt-get install default-jdk
 apt install git
@@ -21,6 +24,14 @@ ls -l -проверить рпава по файлам
 
 
 ./gradlew run - повторить
+ nohup оманда и &
+
+./gradlew build - собрать приложение
+
+nohup ./gradlew run &
+
+ 97367
+97950
 
 устанвока докера
 /apt install docker.io docker-compose
@@ -51,3 +62,9 @@ services:
 сохраняем cnrl+x
 
 затем docker-compose up -d
+ 
+
+
+помог мне удалить процесс ps aux | grep java
+
+scp -r C:/Users/YourUser/Documents/myfolder yourusername@remote-server:/home/yourusername/ скопироовать папку
