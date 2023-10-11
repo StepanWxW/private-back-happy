@@ -1,4 +1,4 @@
-package com.food.database
+package com.food.controller
 
 class ShopDto(
     val id: Int,

@@ -23,17 +23,12 @@ fun Application.configureRouting() {
     }
 
     routing {
-        get("/tomsk/shops/sectionsAndProducts") {
+        get("/tomsk/shops/shop_section/") {
             val shopId = call.parameters["shop_id"]?.toIntOrNull()
                 ?: throw IllegalArgumentException("shop_id parameter is missing or invalid")
-            val sections = getShopSectionsAndAllProductFirstSection(shopId)
+            val sectionId = call.parameters["section_id"]?.toIntOrNull() ?: 0
+            val sections = getShopSectionsAndAllProductFirstSection(shopId, sectionId)
             call.respond(HttpStatusCode.OK, sections)
-        }
-    }
-
-    routing {
-        get("/test") {
-            call.respondText("Это тестовый текст")
         }
     }
 }

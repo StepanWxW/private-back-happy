@@ -1,4 +1,7 @@
-package com.food.database
+package com.food.controller
+
+import com.food.controller.Product
+import com.food.controller.Section
 
 data class SectionsAndProductsResponse(
     val sections: List<Section>,

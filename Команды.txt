@@ -97,3 +97,7 @@ docker network connect mynetwork postres_db_1
 
 Копируем  срепозитория Git copy ссылка с окончанием на .git
 Далее провадиваем в папку куда скопировали и пишем команду ./gradlew build
+
+
+
+sudo systemctl restart backend

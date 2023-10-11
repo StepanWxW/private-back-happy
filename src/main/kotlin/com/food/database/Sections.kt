@@ -1,6 +1,12 @@
 package com.food.database
 
 
+import com.food.controller.Addition
+import com.food.controller.Cost
+import com.food.controller.Product
+import com.food.controller.ProductPicture
+import com.food.controller.Section
+import com.food.controller.SectionsAndProductsResponse
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.select
@@ -11,23 +17,23 @@ object Sections : IntIdTable() {
     private val place = integer("place")
     private val shopId = integer("shop_id").references(Shops.id)
 
-    fun getShopSectionsAndAllProductFirstSection(id: Int): SectionsAndProductsResponse {
+    fun getShopSectionsAndAllProductFirstSection(shopId: Int, sectionId: Int): SectionsAndProductsResponse {
         val sections =  transaction {
-            Sections.select { shopId eq id }
+            Sections.select { this@Sections.shopId eq shopId }
                 .map {
                     Section(
                         it[Sections.id].value,
                         it[name],
                         it[place],
-                        it[shopId]
+                        it[this@Sections.shopId]
                     )
                 }
         }
-        val firstIdSection = sections[0].id
+        val firstIdSection = sections[sectionId].id
         val products = transaction {
             Products.innerJoin(Sections)
                 .select {
-                    (shopId eq id) and
+                    (this@Sections.shopId eq shopId) and
                             (Sections.id eq firstIdSection)
                 }.map { it ->
                     val productId = it[Products.id].value

@@ -1,5 +1,6 @@
 package com.food.database
 
+import com.food.controller.ShopDto
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
