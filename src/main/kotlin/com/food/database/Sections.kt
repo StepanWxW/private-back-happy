@@ -17,7 +17,7 @@ object Sections : IntIdTable() {
     private val place = integer("place")
     private val shopId = integer("shop_id").references(Shops.id)
 
-    fun getShopSectionsAndAllProductFirstSection(shopId: Int, sectionId: Int): SectionsAndProductsResponse {
+    fun getShopSectionsAndAllProductsFirstSection(shopId: Int): SectionsAndProductsResponse {
         val sections =  transaction {
             Sections.select { this@Sections.shopId eq shopId }
                 .map {
@@ -29,7 +29,7 @@ object Sections : IntIdTable() {
                     )
                 }
         }
-        val firstIdSection = sections[sectionId].id
+        val firstIdSection = sections[0].id
         val products = transaction {
             Products.innerJoin(Sections)
                 .select {
