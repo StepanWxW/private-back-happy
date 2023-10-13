@@ -39,4 +39,6 @@ dependencies {
     implementation ("org.jetbrains.exposed:exposed-dao:0.44.0")
     implementation ("org.jetbrains.exposed:exposed-jdbc:0.44.0")
     implementation ("org.postgresql:postgresql:42.6.0")
+
+    implementation ("io.ktor:ktor-network-tls-certificates")
 }

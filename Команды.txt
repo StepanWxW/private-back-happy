@@ -98,6 +98,11 @@ docker network connect mynetwork postres_db_1
 Копируем  срепозитория Git copy ссылка с окончанием на .git
 Далее провадиваем в папку куда скопировали и пишем команду ./gradlew build
 
+cd C:\Intel\ktor-sample
+gradlew build
+cd C:\Intel\ktor-sample\build\libs
+переименовывем в backend
 
-
+scp backend.jar root@94.228.125.138:/root
+ssh root@185.178.47.249
 sudo systemctl restart backend
