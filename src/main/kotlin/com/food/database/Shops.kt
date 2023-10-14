@@ -5,7 +5,7 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 
-object Shops : IntIdTable() {
+object Shops : IntIdTable("public.shops") {
     private val name = varchar("name", 100)
     private val address = varchar("address", 50)
     private val description = text("description")
