@@ -103,6 +103,7 @@ gradlew build
 cd C:\Intel\ktor-sample\build\libs
 переименовывем в backend
 
-scp backend.jar root@94.228.125.138:/root
+scp backend.jar root@185.178.47.249:/root
 ssh root@185.178.47.249
+hEfuY-,sS_NW3Q
 sudo systemctl restart backend

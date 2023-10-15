@@ -39,4 +39,29 @@ fun Application.configureRouting() {
             call.respond(HttpStatusCode.OK, sections)
         }
     }
+
+    routing {
+//        post("/insertData") {
+//            try {
+//                val orderData = call.receive<OrderRequest>()
+//                transaction {
+//                    // Вставляем данные в таблицу order_products_1
+//                    val orderProductsId = tomsk.order_products_1.insertAndGetId {
+//                        it[id_product] = orderData.idProduct
+//                        it[count] = orderData.count
+//                    }
+//
+//                    // Вставляем данные в таблицу order_additions_1
+//                    tomsk.order_additions_1.insert {
+//                        it[id_addition] = orderData.idAddition
+//                        it[count] = 1
+//                    }
+//
+//                    call.respond(HttpStatusCode.OK, Response("Data inserted successfully"))
+//                }
+//            } catch (e: IOException) {
+//                call.respond(HttpStatusCode.BadRequest, Response("Invalid data format"))
+//            }
+//        }
+    }
 }
