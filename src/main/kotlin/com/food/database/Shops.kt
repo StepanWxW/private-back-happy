@@ -11,7 +11,10 @@ object Shops : IntIdTable("public.shops") {
     private val description = text("description")
     private val imgUrl = text("img_url")
     private val cityId = reference("city_id", Cities)
-    val isActive = bool("is_active")
+    private val isActive = bool("is_active")
+    private val isWorkNow = bool("is_work_now")
+    private val delivery = bool("delivery")
+    private val timeWork = varchar("time_work",20)
 
     fun getAllShops(): List<ShopDto> {
         return transaction {
@@ -23,7 +26,10 @@ object Shops : IntIdTable("public.shops") {
                     description = it[description],
                     imgUrl = it[imgUrl],
                     cityId = it[cityId].value,
-                    isActive = it[isActive]
+                    isActive = it[isActive],
+                    isWorkNow = it[isWorkNow],
+                    delivery = it[delivery],
+                    timeWork = it[timeWork]
                 )
             }
         }
