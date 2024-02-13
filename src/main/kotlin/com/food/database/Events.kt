@@ -98,9 +98,9 @@ object Events : IntIdTable("happy.events") {
         }
     }
 
-    fun deleteEvent(event: MyEvent) {
+    fun deleteEvent(uid: String, id: Int) {
         transaction {
-            Events.deleteWhere { Events.id eq event.id }
+            Events.deleteWhere { Events.id eq id }
         }
     }
 //    fun updateVideoZakaz(id: Int) {

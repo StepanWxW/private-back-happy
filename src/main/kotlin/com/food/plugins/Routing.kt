@@ -59,9 +59,14 @@ fun Application.configureRouting() {
     routing {
         delete ("/delete/") {
             try {
-                val event = call.receive<MyEvent>()
-                Events.deleteEvent(event)
-                call.respond(HttpStatusCode.OK)
+                val uid = call.parameters["uid"]
+                val id = call.parameters["id"]
+                if (uid != null && id != null) {
+                    Events.deleteEvent(uid, id.toInt())
+                    call.respond(HttpStatusCode.OK)
+                } else {
+                    call.respond(HttpStatusCode.BadRequest, "Parameter 'uid' or 'id' is missing")
+                }
             } catch (e: Exception) {
                 call.respond(HttpStatusCode.BadRequest, "Invalid JSON format ${e.message}")
             }
