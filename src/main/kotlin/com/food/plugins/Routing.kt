@@ -63,7 +63,7 @@ fun Application.configureRouting() {
                 val id = call.parameters["id"]
                 if (uid != null && id != null) {
                     Events.deleteEvent(uid, id.toInt())
-                    call.respond(HttpStatusCode.OK)
+                    call.respond(HttpStatusCode.OK, MyStatus(true))
                 } else {
                     call.respond(HttpStatusCode.BadRequest, "Parameter 'uid' or 'id' is missing")
                 }
