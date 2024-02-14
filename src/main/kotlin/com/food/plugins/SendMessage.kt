@@ -28,8 +28,9 @@ class SendMessage {
         val now = LocalDateTime.now()
         val events =
             CoroutineScope(Dispatchers.IO).async {
+                val month = now.monthValue.toLong() - 1
                 Events.getAllOfDate(
-                    now.month.toString().toLong(),
+                    month,
                     now.dayOfMonth.toString().toLong(),
                     now.hour.toString().toLong()
                 )
