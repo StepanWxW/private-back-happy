@@ -1,6 +1,7 @@
 package com.food.plugins
 
 import com.food.database.Events
+import com.food.database.Users
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.exists
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -11,6 +12,10 @@ class CreateTable {
             val eventsExists = Events.exists()
             if (!eventsExists) {
                 SchemaUtils.create(Events)
+            }
+            val usersExists = Users.exists()
+            if (!usersExists) {
+                SchemaUtils.create(Users)
             }
         }
     }

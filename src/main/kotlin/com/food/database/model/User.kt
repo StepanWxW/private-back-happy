@@ -1,5 +1,6 @@
 package com.food.database.model
 
 data class User (
-    val uid: String
+    var uid: String,
+    var token: String
         )

@@ -1,14 +1,20 @@
 package com.food.plugins
 
-
 import com.food.database.Events
+import com.food.database.Users
 import com.food.database.model.MyEvent
 import com.food.database.model.MyStatus
+import com.food.database.model.User
+import com.google.firebase.auth.FirebaseAuth
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.*
 import io.ktor.server.request.receive
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.util.pipeline.PipelineContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 
 fun Application.configureRouting() {
     routing {
@@ -20,8 +26,11 @@ fun Application.configureRouting() {
         post("/event/") {
             try {
                 val event = call.receive<MyEvent>()
-                Events.insertEvent(event)
-                call.respond(HttpStatusCode.OK, MyStatus(true))
+                val tokenIs = CoroutineScope(Dispatchers.IO).async { tokenValid(event.uid) }.await()
+                if (tokenIs) {
+                    Events.insertEvent(event)
+                    call.respond(HttpStatusCode.OK, MyStatus(true))
+                }
             } catch (e: Exception) {
                 call.respond(HttpStatusCode.BadRequest, "Invalid JSON format ${e.message}")
             }
@@ -33,8 +42,12 @@ fun Application.configureRouting() {
             try {
                 val uid = call.parameters["uid"]
                 if (uid != null) {
-                    val events = Events.getAllOfUid(uid)
-                    call.respond(HttpStatusCode.OK, events)
+
+                    val tokenIs = CoroutineScope(Dispatchers.IO).async { tokenValid(uid) }.await()
+                    if (tokenIs) {
+                        val events = Events.getAllOfUid(uid)
+                        call.respond(HttpStatusCode.OK, events)
+                    }
                 } else {
                     call.respond(HttpStatusCode.BadRequest, "Parameter 'uid' is missing")
                 }
@@ -48,8 +61,11 @@ fun Application.configureRouting() {
         patch("/update/") {
             try {
                 val event = call.receive<MyEvent>()
-                Events.updateEvent(event)
-                call.respond(HttpStatusCode.OK)
+                val tokenIs = CoroutineScope(Dispatchers.IO).async { tokenValid(event.uid) }.await()
+                if (tokenIs) {
+                    Events.updateEvent(event)
+                    call.respond(HttpStatusCode.OK)
+                }
             } catch (e: Exception) {
                 call.respond(HttpStatusCode.BadRequest, "Invalid JSON format ${e.message}")
             }
@@ -62,8 +78,11 @@ fun Application.configureRouting() {
                 val uid = call.parameters["uid"]
                 val id = call.parameters["id"]
                 if (uid != null && id != null) {
-                    Events.deleteEvent(uid, id.toInt())
-                    call.respond(HttpStatusCode.OK, MyStatus(true))
+                    val tokenIs = CoroutineScope(Dispatchers.IO).async { tokenValid(uid) }.await()
+                    if (tokenIs) {
+                        Events.deleteEvent(uid, id.toInt())
+                        call.respond(HttpStatusCode.OK, MyStatus(true))
+                    }
                 } else {
                     call.respond(HttpStatusCode.BadRequest, "Parameter 'uid' or 'id' is missing")
                 }
@@ -72,19 +91,33 @@ fun Application.configureRouting() {
             }
         }
     }
-
     routing {
-        get("/e/") {
-
-            val events = Events.getAllOfDate(8,10,15)
-            if(events.isEmpty()){
-                println("пустой")
-            } else {
-                for(event in events) {
-                    println(event)
+        post("/token/") {
+            try {
+                val uid = call.parameters["uid"]
+                val token = call.parameters["token"]
+                if (uid != null && token != null) {
+                    val tokenIs = CoroutineScope(Dispatchers.IO).async { tokenValid(uid) }.await()
+                    if (tokenIs) {
+                        Users.createOrUpdateUser(User(uid,token))
+                        call.respond(HttpStatusCode.OK, MyStatus(true))
+                    }
+                } else {
+                    call.respond(HttpStatusCode.BadRequest, "Parameter 'uid' or 'token' is missing")
                 }
+            } catch (e: Exception) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid JSON format ${e.message}")
             }
-            call.respond(HttpStatusCode.OK)
         }
     }
+}
+
+private suspend fun PipelineContext<Unit, ApplicationCall>.tokenValid(uid: String): Boolean {
+    val token = call.request.headers["Authorization"]?.removePrefix("Bearer ")
+    if (token != null) {
+        val decodedToken = FirebaseAuth.getInstance().verifyIdToken(token)
+        val uidFB = decodedToken.uid
+        return uid == uidFB
+    }
+    return false
 }

@@ -1,6 +1,7 @@
 package com.food
 
 import com.food.plugins.CreateTable
+import com.food.plugins.SendMessage
 import com.food.plugins.configureRouting
 import com.food.plugins.configureSerialization
 import com.google.auth.oauth2.GoogleCredentials
@@ -27,6 +28,8 @@ fun main() {
         .build()
 
     FirebaseApp.initializeApp(options)
+
+    SendMessage().start()
 
     embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::module)
         .start(wait = true)
