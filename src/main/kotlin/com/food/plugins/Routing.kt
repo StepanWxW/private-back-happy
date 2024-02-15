@@ -1,6 +1,7 @@
 package com.food.plugins
 
 import com.food.database.Events
+import com.food.database.Questions
 import com.food.database.Users
 import com.food.database.model.MyEvent
 import com.food.database.model.MyStatus
@@ -105,6 +106,20 @@ fun Application.configureRouting() {
                 } else {
                     call.respond(HttpStatusCode.BadRequest, "Parameter 'uid' or 'token' is missing")
                 }
+            } catch (e: Exception) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid JSON format ${e.message}")
+            }
+        }
+    }
+
+    routing {
+        get("/questions/") {
+            try {
+                val questions = Questions.getAll()
+                println(questions)
+                val questionSort = questions.sortedBy { it.number }
+                println(questions)
+                call.respond(HttpStatusCode.OK, questionSort)
             } catch (e: Exception) {
                 call.respond(HttpStatusCode.BadRequest, "Invalid JSON format ${e.message}")
             }
