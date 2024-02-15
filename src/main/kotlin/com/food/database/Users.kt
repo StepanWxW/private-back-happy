@@ -2,6 +2,7 @@ package com.food.database
 
 import com.food.database.model.User
 import org.jetbrains.exposed.dao.id.IntIdTable
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -20,23 +21,6 @@ object Users : IntIdTable("happy.users"){
             )
         }
     }
-    fun createUser(user: User) {
-        transaction {
-            Users.insert {
-                it[uid] = user.uid
-                it[token] = user.token
-            }
-        }
-    }
-
-    fun updateUser(user: User) {
-        transaction {
-            Users.update({uid eq user.uid}) {
-                it[token] = user.token
-            }
-        }
-    }
-
     fun createOrUpdateUser(user: User) {
         transaction {
             val existingUser = Users.select { uid eq user.uid }.singleOrNull()
@@ -49,6 +33,14 @@ object Users : IntIdTable("happy.users"){
                     it[uid] = user.uid
                     it[token] = user.token
                 }
+            }
+        }
+    }
+
+    fun deleteToken(uid: String) {
+        transaction {
+            Users.update({ Users.uid eq uid }) {
+                it[token] = ""
             }
         }
     }

@@ -65,7 +65,7 @@ fun Application.configureRouting() {
                 val tokenIs = CoroutineScope(Dispatchers.IO).async { tokenValid(event.uid) }.await()
                 if (tokenIs) {
                     Events.updateEvent(event)
-                    call.respond(HttpStatusCode.OK)
+                    call.respond(HttpStatusCode.OK, MyStatus(true))
                 }
             } catch (e: Exception) {
                 call.respond(HttpStatusCode.BadRequest, "Invalid JSON format ${e.message}")
@@ -105,6 +105,25 @@ fun Application.configureRouting() {
                     }
                 } else {
                     call.respond(HttpStatusCode.BadRequest, "Parameter 'uid' or 'token' is missing")
+                }
+            } catch (e: Exception) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid JSON format ${e.message}")
+            }
+        }
+    }
+
+    routing {
+        delete("/delete_token/") {
+            try {
+                val uid = call.parameters["uid"]
+                if (uid != null) {
+                    val tokenIs = CoroutineScope(Dispatchers.IO).async { tokenValid(uid) }.await()
+                    if (tokenIs) {
+                        Users.deleteToken(uid)
+                        call.respond(HttpStatusCode.OK, MyStatus(true))
+                    }
+                } else {
+                    call.respond(HttpStatusCode.BadRequest, "Parameter 'uid' or 'id' is missing")
                 }
             } catch (e: Exception) {
                 call.respond(HttpStatusCode.BadRequest, "Invalid JSON format ${e.message}")

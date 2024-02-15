@@ -41,7 +41,7 @@ class SendMessage {
                 CoroutineScope(Dispatchers.IO).async {
                     Users.getUser(uid)
                 }.await()
-            if(user != null) {
+            if(user != null && user.token != "") {
                 val builder = Notification.builder()
                 builder.setTitle("${event.lastName} ${event.firstName} ${event.patronymic}")
                 builder.setBody("День рождение!!!")
@@ -50,6 +50,7 @@ class SendMessage {
                     val message = Message.builder()
                         .setToken(user.token)
                         .setNotification(notification)
+                        .putData("id", event.id.toString())
                         .build()
                     FirebaseMessaging.getInstance().send(message)
                 } catch (e: Exception) {
