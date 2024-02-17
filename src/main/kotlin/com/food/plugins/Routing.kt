@@ -65,7 +65,8 @@ fun Application.configureRouting() {
                 val event = call.receive<MyEvent>()
                 val tokenIs = CoroutineScope(Dispatchers.IO).async { tokenValid(event.uid) }.await()
                 if (tokenIs) {
-                    Events.updateEvent(event)
+                    EventUseCase().update(event)
+//                    Events.updateEvent(event)
                     call.respond(HttpStatusCode.OK, MyStatus(true))
                 }
             } catch (e: Exception) {

@@ -19,5 +19,5 @@ data class MyEvent(
     var month: Long,
     var day: Long,
     var hour: Long,
-    val timeZone: Long? = null
+    val timeZone: Int
 )

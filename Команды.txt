@@ -1,7 +1,9 @@
 cd C:\happy\back\build\libs
 scp backend.jar root@185.178.47.249:/root
-Ilovedota70
 ssh root@185.178.47.249 sudo systemctl restart backend
+
+hEfuY-,sS_NW3Q
+
 
 
 94.228.125.138

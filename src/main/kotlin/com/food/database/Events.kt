@@ -1,6 +1,7 @@
 package com.food.database
 
 import com.food.domain.model.MyEvent
+import com.food.plugins.TIMEZONE
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and
@@ -52,6 +53,7 @@ object Events : IntIdTable("happy.events") {
                         month = row[month],
                         day = row[day],
                         hour = row[hour],
+                        timeZone = TIMEZONE
                     )
                 }
                 .toList()
@@ -77,6 +79,7 @@ object Events : IntIdTable("happy.events") {
                         month = row[month],
                         day = row[day],
                         hour = row[hour],
+                        timeZone = TIMEZONE
                     )
                 }
                 .toList()
