@@ -1,4 +1,4 @@
-package com.food.database.model
+package com.food.domain.model
 
 import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.Serializable
@@ -19,4 +19,5 @@ data class MyEvent(
     var month: Long,
     var day: Long,
     var hour: Long,
+    val timeZone: Long? = null
 )

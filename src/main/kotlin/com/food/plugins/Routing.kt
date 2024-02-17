@@ -3,9 +3,10 @@ package com.food.plugins
 import com.food.database.Events
 import com.food.database.Questions
 import com.food.database.Users
-import com.food.database.model.MyEvent
-import com.food.database.model.MyStatus
-import com.food.database.model.User
+import com.food.domain.EventUseCase
+import com.food.domain.model.MyEvent
+import com.food.domain.model.MyStatus
+import com.food.domain.model.User
 import com.google.firebase.auth.FirebaseAuth
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.*
@@ -29,7 +30,7 @@ fun Application.configureRouting() {
                 val event = call.receive<MyEvent>()
                 val tokenIs = CoroutineScope(Dispatchers.IO).async { tokenValid(event.uid) }.await()
                 if (tokenIs) {
-                    Events.insertEvent(event)
+                    EventUseCase().saveEvent(event)
                     call.respond(HttpStatusCode.OK, MyStatus(true))
                 }
             } catch (e: Exception) {

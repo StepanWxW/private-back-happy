@@ -1,6 +1,6 @@
 package com.food.database
 
-import com.food.database.model.User
+import com.food.domain.model.User
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.insert

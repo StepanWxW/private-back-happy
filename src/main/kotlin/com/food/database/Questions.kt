@@ -1,7 +1,7 @@
 package com.food.database
 
 
-import com.food.database.model.Question
+import com.food.domain.model.Question
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction

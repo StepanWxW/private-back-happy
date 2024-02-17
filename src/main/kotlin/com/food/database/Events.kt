@@ -1,6 +1,6 @@
 package com.food.database
 
-import com.food.database.model.MyEvent
+import com.food.domain.model.MyEvent
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and

@@ -1,4 +1,4 @@
-package com.food.database.model
+package com.food.domain.model
 
 import kotlinx.serialization.Serializable
 
